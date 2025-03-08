@@ -1,5 +1,7 @@
 package br.com.startec.documentsignerusermanagement.core.entities;
 
+import br.com.startec.documentsignerusermanagement.core.enuns.UserRole;
+
 import java.util.UUID;
 
 public class User {
@@ -14,12 +16,15 @@ public class User {
 
     private final String password;
 
-    public User(UUID userId, String cpf, String name, String email, String password) {
+    private final UserRole userRole;
+
+    public User(UUID userId, String cpf, String name, String email, String password, UserRole userRole) {
         this.userId = userId;
         this.cpf = cpf;
         this.name = name;
         this.email = email;
         this.password = password;
+        this.userRole = userRole;
     }
 
     public UUID getUserId() {
@@ -42,4 +47,7 @@ public class User {
         return password;
     }
 
+    public UserRole getUserRole() {
+        return userRole;
+    }
 }

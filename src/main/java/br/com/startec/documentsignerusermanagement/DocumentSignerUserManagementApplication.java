@@ -6,8 +6,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class DocumentSignerUserManagementApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(DocumentSignerUserManagementApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(DocumentSignerUserManagementApplication.class, args);
+    }
 
 }

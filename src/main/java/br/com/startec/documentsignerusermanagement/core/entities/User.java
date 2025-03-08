@@ -1,4 +1,4 @@
-package br.com.startec.documentsignerusermanagement.core.entity;
+package br.com.startec.documentsignerusermanagement.core.entities;
 
 import java.util.UUID;
 

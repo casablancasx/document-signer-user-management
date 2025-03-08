@@ -2,19 +2,18 @@ package br.com.startec.documentsignerusermanagement.core.usecase.impl;
 
 import br.com.startec.documentsignerusermanagement.core.entities.User;
 import br.com.startec.documentsignerusermanagement.core.gateway.UserGateway;
-import br.com.startec.documentsignerusermanagement.core.usecase.CreateUserUseCase;
+import br.com.startec.documentsignerusermanagement.core.usecase.UpdateUserUseCase;
 
-public class CreateUserUseCaseImpl implements CreateUserUseCase {
+public class UpdateUserUseCaseImpl implements UpdateUserUseCase {
 
     private final UserGateway userGateway;
 
-    public CreateUserUseCaseImpl(UserGateway userGateway) {
+    public UpdateUserUseCaseImpl(UserGateway userGateway) {
         this.userGateway = userGateway;
     }
 
     @Override
     public User execute(User user) {
-        userGateway.validateCreateUser(user);
-        return userGateway.createUser(user);
+        return userGateway.updateUser(user);
     }
 }

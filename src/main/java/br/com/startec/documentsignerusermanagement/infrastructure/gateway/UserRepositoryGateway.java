@@ -2,8 +2,11 @@ package br.com.startec.documentsignerusermanagement.infrastructure.gateway;
 
 import br.com.startec.documentsignerusermanagement.core.entities.User;
 import br.com.startec.documentsignerusermanagement.core.gateway.UserGateway;
+import br.com.startec.documentsignerusermanagement.infrastructure.mapper.UserEntityMapper;
+import br.com.startec.documentsignerusermanagement.infrastructure.persistence.UserEntity;
 import br.com.startec.documentsignerusermanagement.infrastructure.persistence.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -14,6 +17,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class UserRepositoryGateway implements UserGateway {
 
+    private final UserEntityMapper userEntityMapper;
     private final UserRepository userRepository;
 
     @Override
@@ -38,7 +42,10 @@ public class UserRepositoryGateway implements UserGateway {
 
     @Override
     public User createUser(User user) {
-        return null;
+        UserEntity entity = userEntityMapper.mapToEntity(user);
+        String encryptedPassword = new BCryptPasswordEncoder().encode(user.getPassword());
+        entity.setPassword(encryptedPassword);
+        return userEntityMapper.mapToDomain(userRepository.save(entity));
     }
 
     @Override

@@ -16,15 +16,16 @@ public class User {
 
     private final String password;
 
-    private final UserRole userRole;
+    private final UserRole role;
 
-    public User(UUID userId, String cpf, String name, String email, String password, UserRole userRole) {
+
+    public User(UUID userId, String cpf, String name, String email, String password, UserRole role) {
         this.userId = userId;
         this.cpf = cpf;
         this.name = name;
         this.email = email;
         this.password = password;
-        this.userRole = userRole;
+        this.role = role;
     }
 
     public UUID getUserId() {
@@ -48,6 +49,6 @@ public class User {
     }
 
     public UserRole getUserRole() {
-        return userRole;
+        return role;
     }
 }

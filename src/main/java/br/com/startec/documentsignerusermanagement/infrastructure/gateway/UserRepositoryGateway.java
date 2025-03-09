@@ -2,6 +2,8 @@ package br.com.startec.documentsignerusermanagement.infrastructure.gateway;
 
 import br.com.startec.documentsignerusermanagement.core.entities.User;
 import br.com.startec.documentsignerusermanagement.core.gateway.UserGateway;
+import br.com.startec.documentsignerusermanagement.infrastructure.persistence.UserRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -9,7 +11,10 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Component
+@RequiredArgsConstructor
 public class UserRepositoryGateway implements UserGateway {
+
+    private final UserRepository userRepository;
 
     @Override
     public List<User> findAllUsers() {

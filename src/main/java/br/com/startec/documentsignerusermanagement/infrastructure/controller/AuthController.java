@@ -1,7 +1,9 @@
 package br.com.startec.documentsignerusermanagement.infrastructure.controller;
 
 import br.com.startec.documentsignerusermanagement.core.entities.User;
+import br.com.startec.documentsignerusermanagement.infrastructure.dtos.in.LoginRequestDTO;
 import br.com.startec.documentsignerusermanagement.infrastructure.dtos.in.UserRegisterDTO;
+import br.com.startec.documentsignerusermanagement.infrastructure.dtos.out.LoginResponseDTO;
 import br.com.startec.documentsignerusermanagement.infrastructure.dtos.out.UserResponseDTO;
 import br.com.startec.documentsignerusermanagement.infrastructure.gateway.UserRepositoryGateway;
 import br.com.startec.documentsignerusermanagement.infrastructure.mapper.UserDtoMapper;
@@ -15,8 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("v1/api/user")
-public class UserController {
+@RequestMapping("v1/api/auth")
+public class AuthController {
 
     private final UserRepositoryGateway userRepositoryGateway;
     private final UserDtoMapper userDtoMapper;
@@ -27,5 +29,10 @@ public class UserController {
         User newUserDomain =  userRepositoryGateway.createUser(userDtoMapper.mapToDomain(newUser));
         User response = userRepositoryGateway.createUser(newUserDomain);
         return ResponseEntity.ok(userDtoMapper.mapToResponseDTO(response));
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<LoginResponseDTO> login(@RequestBody @Valid LoginRequestDTO loginRequest) {
+        return ResponseEntity.ok(userRepositoryGateway.login(loginRequest));
     }
 }

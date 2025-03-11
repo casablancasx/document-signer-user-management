@@ -2,11 +2,16 @@ package br.com.startec.documentsignerusermanagement.infrastructure.gateway;
 
 import br.com.startec.documentsignerusermanagement.core.entities.User;
 import br.com.startec.documentsignerusermanagement.core.gateway.UserGateway;
+import br.com.startec.documentsignerusermanagement.infrastructure.dtos.in.LoginRequestDTO;
+import br.com.startec.documentsignerusermanagement.infrastructure.dtos.out.LoginResponseDTO;
 import br.com.startec.documentsignerusermanagement.infrastructure.exception.EmailAlreadyExistsException;
 import br.com.startec.documentsignerusermanagement.infrastructure.mapper.UserEntityMapper;
 import br.com.startec.documentsignerusermanagement.infrastructure.persistence.UserEntity;
 import br.com.startec.documentsignerusermanagement.infrastructure.persistence.UserRepository;
+import br.com.startec.documentsignerusermanagement.infrastructure.security.TokenService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
@@ -20,6 +25,8 @@ public class UserRepositoryGateway implements UserGateway {
 
     private final UserEntityMapper userEntityMapper;
     private final UserRepository userRepository;
+    private final AuthenticationManager authenticationManager;
+    private final TokenService tokenService;
 
     @Override
     public List<User> findAllUsers() {
@@ -48,6 +55,14 @@ public class UserRepositoryGateway implements UserGateway {
         String encryptedPassword = new BCryptPasswordEncoder().encode(user.getPassword());
         entity.setPassword(encryptedPassword);
         return userEntityMapper.mapToDomain(userRepository.save(entity));
+    }
+
+    @Override
+    public LoginResponseDTO login(LoginRequestDTO data) {
+        var userNamePassword = new UsernamePasswordAuthenticationToken(data.getEmail(), data.getPassword());
+        var authentication = authenticationManager.authenticate(userNamePassword);
+        String token  = tokenService.generateToken((User) authentication.getPrincipal());
+        return new LoginResponseDTO(token);
     }
 
     @Override

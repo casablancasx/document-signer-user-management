@@ -58,4 +58,16 @@ public class ControllerExceptionHandler {
         return ResponseEntity.status(status).body(error);
     }
 
+    @ExceptionHandler({GenerateTokenException.class})
+    public ResponseEntity<StandardError> generateTokenException(GenerateTokenException ex, HttpServletRequest request) {
+        StandardError error = new StandardError();
+        HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;
+        error.setStatus(status.value());
+        error.setError("Erro ao gerar token");
+        error.setMessage(ex.getMessage());
+        error.setPath(request.getRequestURI());
+        error.setTimestamp(java.time.Instant.now());
+        return ResponseEntity.status(status).body(error);
+    }
+
 }

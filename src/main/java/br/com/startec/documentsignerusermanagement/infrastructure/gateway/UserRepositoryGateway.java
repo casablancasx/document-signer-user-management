@@ -2,6 +2,7 @@ package br.com.startec.documentsignerusermanagement.infrastructure.gateway;
 
 import br.com.startec.documentsignerusermanagement.core.entities.User;
 import br.com.startec.documentsignerusermanagement.core.gateway.UserGateway;
+import br.com.startec.documentsignerusermanagement.infrastructure.exception.EmailAlreadyExistsException;
 import br.com.startec.documentsignerusermanagement.infrastructure.mapper.UserEntityMapper;
 import br.com.startec.documentsignerusermanagement.infrastructure.persistence.UserEntity;
 import br.com.startec.documentsignerusermanagement.infrastructure.persistence.UserRepository;
@@ -42,6 +43,7 @@ public class UserRepositoryGateway implements UserGateway {
 
     @Override
     public User createUser(User user) {
+        validateCreateUser(user);
         UserEntity entity = userEntityMapper.mapToEntity(user);
         String encryptedPassword = new BCryptPasswordEncoder().encode(user.getPassword());
         entity.setPassword(encryptedPassword);
@@ -55,7 +57,8 @@ public class UserRepositoryGateway implements UserGateway {
 
     @Override
     public void validateCreateUser(User user) {
-
+        if(userRepository.existsByEmail(user.getEmail())) throw new EmailAlreadyExistsException("Já existe um email: " + user.getEmail() + " cadastrado no sistema");
+        if(userRepository.existsByCpf(user.getCpf())) throw new EmailAlreadyExistsException("Já existe um CPF: " + user.getCpf() + " cadastrado no sistema");
     }
 
     @Override

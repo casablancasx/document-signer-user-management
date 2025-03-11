@@ -1,4 +1,4 @@
-package br.com.startec.documentsignerusermanagement.infrastructure.security;
+package br.com.startec.documentsignerusermanagement.infrastructure.service;
 
 import br.com.startec.documentsignerusermanagement.infrastructure.persistence.UserRepository;
 import lombok.RequiredArgsConstructor;

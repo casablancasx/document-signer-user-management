@@ -27,8 +27,7 @@ public class AuthController {
     @PostMapping("/register")
     public ResponseEntity<UserResponseDTO> registerNewUser(@RequestBody @Valid UserRegisterDTO newUser) {
         User newUserDomain =  userRepositoryGateway.createUser(userDtoMapper.mapToDomain(newUser));
-        User response = userRepositoryGateway.createUser(newUserDomain);
-        return ResponseEntity.ok(userDtoMapper.mapToResponseDTO(response));
+        return ResponseEntity.ok(userDtoMapper.mapToResponseDTO(newUserDomain));
     }
 
     @PostMapping("/login")
